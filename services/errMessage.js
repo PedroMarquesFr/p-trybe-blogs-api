@@ -1,5 +1,3 @@
-const errMessage = (message, code) => {
-  return { message, code };
-};
+const errMessage = (message, code) => ({ message, code });
 
 module.exports = errMessage;
