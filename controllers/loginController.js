@@ -1,4 +1,4 @@
-const loginService = require("../services/loginService");
+const loginService = require('../services/loginService');
 
 const newUser = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -6,7 +6,7 @@ const newUser = async (req, res) => {
     displayName,
     email,
     password,
-    image
+    image,
   );
   console.log(tokenOrError);
   res.status(tokenOrError.message ? tokenOrError.code : 201).json(tokenOrError);
