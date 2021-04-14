@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Users, {
         foreignKey: 'userId',
-        as: 'posts',
+        as: 'user',
       });
     }
   }
@@ -15,12 +15,13 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       userId: DataTypes.INTEGER,
-      createdAt: 'published',
-      updatedAt: 'updated',
+      published: { type: DataTypes.DATE, defaultValue: Date.now() },
+      updated: { type: DataTypes.DATE, defaultValue: Date.now() },
     },
     {
       sequelize,
       modelName: 'BlogPosts',
+      timestamps: false,
     },
   );
   return BlogPosts;

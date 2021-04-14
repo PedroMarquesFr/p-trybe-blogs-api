@@ -15,13 +15,13 @@ const createNewTokenRegister = (id, email, displayName) => {
   return token;
 };
 
-const createNewTokenLogin = (email, password) => {
+const createNewTokenLogin = (email, password, id) => {
   const jwtConfig = {
     expiresIn: '23h',
     algorithm: 'HS256',
   };
   const token = jwt.sign(
-    { data: { email, password } },
+    { data: { email, password, id } },
     secret,
     jwtConfig,
   );

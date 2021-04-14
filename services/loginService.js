@@ -18,7 +18,7 @@ const newLogin = async (email, password) => {
   console.log(doesUserExists);
   if (!doesUserExists) return errMessage('Campos inválidos', 400);
 
-  const token = createNewTokenLogin(email, password);
+  const token = createNewTokenLogin(email, password, doesUserExists.dataValues.id);
   return { token };
 };
 
