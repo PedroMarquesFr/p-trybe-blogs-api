@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt-nodejs');
 const { createNewTokenLogin } = require('./createNewToken');
 const { Users } = require('../models');
 const errMessage = require('./errMessage');
@@ -17,6 +18,9 @@ const newLogin = async (email, password) => {
   const doesUserExists = await Users.findOne({ where: { email } });
   console.log(doesUserExists);
   if (!doesUserExists) return errMessage('Campos inválidos', 400);
+
+  const isMatch = bcrypt.compareSync(password, doesUserExists.password);
+  if (!isMatch) return errMessage('Senha invalida', 401);
 
   const token = createNewTokenLogin(email, password, doesUserExists.dataValues.id);
   return { token };

@@ -1,4 +1,6 @@
+const bcrypt = require('bcrypt-nodejs');
 const { Users } = require('../models');
+
 const errMessage = require('./errMessage');
 const { createNewTokenRegister } = require('./createNewToken');
 
@@ -17,6 +19,9 @@ const validateCamps = (displayName, email, password) => {
 const newUser = async (displayName, email, password, image) => {
   const isValid = validateCamps(displayName, email, password);
   if (!isValid.ok) return isValid;
+
+  const salt = bcrypt.genSaltSync(5);
+  password = bcrypt.hashSync(password, salt);
   try {
     const [user, created] = await Users.findOrCreate({
       where: { email },
