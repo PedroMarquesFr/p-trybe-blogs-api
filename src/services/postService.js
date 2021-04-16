@@ -30,7 +30,7 @@ const getPosts = async () => {
     });
     return allPosts;
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return errMessage('Erro interno', 500);
   }
 };

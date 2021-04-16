@@ -18,10 +18,10 @@ const createNewTokenRegister = (id, email, displayName) => {
 const createNewTokenLogin = (email, password, id) => {
   const jwtConfig = {
     expiresIn: '23h',
-    algorithm: 'HS256',
+    algorithm: 'HS256', // 256 bits
   };
   const token = jwt.sign(
-    { data: { email, password, id } },
+    { data: { email, password, id } }, // payload
     secret,
     jwtConfig,
   );

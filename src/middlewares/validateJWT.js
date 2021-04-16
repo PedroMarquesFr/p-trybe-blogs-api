@@ -23,7 +23,7 @@ module.exports = (requireAdmin) => {
       req.user = decoded.data;
       next();
     } catch (err) {
-      return res.status(401).json({ message: 'Token expirado ou inválido' });
+      return res.status(401).json({ message: 'Token expirado ou inválido', err: err.message });
     }
   };
 };
