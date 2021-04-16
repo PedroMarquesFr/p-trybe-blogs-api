@@ -4,7 +4,7 @@ const secret = 'senhasecretashiii';
 
 const createNewTokenRegister = (id, email, displayName) => {
   const jwtConfig = {
-    expiresIn: '23h',
+    // expiresIn: '23h',
     algorithm: 'HS256',
   };
   const token = jwt.sign(
