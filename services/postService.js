@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPosts, Users } = require('../models');
 const errMessage = require('./errMessage');
 
@@ -72,4 +73,42 @@ const editPostById = async (id, userId, title, content) => {
   }
 };
 
-module.exports = { newPost, getPosts, getPostById, editPostById };
+const searchPostByTerm = async (term) => {
+  console.log(term);
+  if (term === '') {
+    const allPosts = await getPosts();
+    return allPosts;
+  }
+  try {
+    const doesPostsExists = await BlogPosts.findAll({
+      where: { [Op.or]: [{ title: term }, { content: term }] },
+      include: [{ model: Users, as: 'user' }],
+    });
+    return doesPostsExists;
+  } catch (error) {
+    console.error(error);
+    return errMessage('Erro interno', 500);
+  }
+};
+
+const deletePost = async (idFromPost, idFromJWT) => {
+  try {
+    const post = await getPostById(idFromPost);
+    if (post.message) return post;
+    if (idFromJWT !== post.user.id) return errMessage('Usuário não autorizado', 401);
+    const deletedPost = await BlogPosts.destroy({ where: { id: idFromPost } });
+    return deletedPost;
+  } catch (error) {
+    console.error(error);
+    return errMessage('Erro interno', 500);
+  }
+};
+
+module.exports = {
+  newPost,
+  getPosts,
+  getPostById,
+  editPostById,
+  searchPostByTerm,
+  deletePost,
+};

@@ -27,4 +27,17 @@ const editPost = async (req, res) => {
   res.status(post.message ? post.code : 200).json(post);
 };
 
-module.exports = { newPost, getPosts, getPost, editPost };
+const serachPostByTerm = async (req, res) => {
+  const { q } = req.query;
+  const posts = await postService.searchPostByTerm(q);
+  res.status(posts.message ? posts.code : 200).json(posts);
+};
+
+const deletePost = async (req, res) => {
+  const { id: idFromParams } = req.params;
+  const { id: idFromJWT } = req.user;
+  const postsDeleted = await postService.deletePost(idFromParams, idFromJWT);
+  res.status(postsDeleted.message ? postsDeleted.code : 204).json(postsDeleted);
+};
+
+module.exports = { newPost, getPosts, getPost, editPost, serachPostByTerm, deletePost };
